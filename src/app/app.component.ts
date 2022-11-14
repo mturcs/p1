@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pi1';
+  constructor() {
+  }
 }
