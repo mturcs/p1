@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import  { HttpHeaders } from '@angular/common/http';
 import {HttpClient} from "@angular/common/http";
-import {HttpEvent, HttpInterceptor, HttpRequest,HttpHandler} from '@angular/common/http';
-import {Observable} from "rxjs";
+import {HttpEvent, HttpInterceptor, HttpRequest,HttpHandler,HttpClientJsonpModule} from '@angular/common/http';
+import {delay, Observable} from "rxjs";
+import {LoaderService} from "./loader.service"
 
 
 //const beaconUrlAlive = '192.168.0.101:49160/alive'
@@ -11,13 +12,19 @@ const beaconUrlAlive = '192.168.0.101:3000/alive'
 const beaconUrlData = '192.168.0.101:3000/random'
 const headers= new HttpHeaders().set('content-type', 'application/json')
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class NullInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler ):
     Observable <HttpEvent<any>> {
-    return next.handle(req)
+    LoaderService.show()
+    return next.handle(req).pipe(
+      delay(5000);
+      LoaderService.hide()
+    )
   }
 
 }
@@ -46,8 +53,12 @@ export class PicommService {
 
 
   get alivetest() {
+    return this.http.get('http://192.168.0.101:49160/alive') }
 
-
-    return this.http.get('http://192.168.0.101:49160/alive')
+  get random() {
+    return this.http.get('http://192.168.0.101:49160/random')
   }
+
+
+
 }
