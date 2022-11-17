@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import  { HttpHeaders } from '@angular/common/http';
 import {HttpClient} from "@angular/common/http";
 import {HttpEvent, HttpInterceptor, HttpRequest,HttpHandler,HttpClientJsonpModule} from '@angular/common/http';
-import {delay, Observable} from "rxjs";
+import {delay, finalize, Observable} from "rxjs";
 import {LoaderService} from "./loader.service"
+
 
 
 //const beaconUrlAlive = '192.168.0.101:49160/alive'
@@ -14,17 +15,20 @@ const headers= new HttpHeaders().set('content-type', 'application/json')
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class NullInterceptor implements HttpInterceptor {
+  constructor( private spinner:LoaderService) {
+  }
   intercept(req: HttpRequest<any>, next: HttpHandler ):
     Observable <HttpEvent<any>> {
-    LoaderService.show()
+    this.spinner._spinnerStatus$.next(true)
     return next.handle(req).pipe(
-      delay(5000);
-      LoaderService.hide()
+      delay(1000),finalize(() => this.spinner._spinnerStatus$.next(false) )
     )
+
   }
 
 }

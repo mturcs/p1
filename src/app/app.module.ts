@@ -12,6 +12,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import { DevicestatComponent } from './devicestat/devicestat.component';
 import {HeaderInterceptor, NullInterceptor, PicommService} from "./picomm.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {HeaderInterceptor, NullInterceptor, PicommService} from "./picomm.servic
     HttpClientModule,
     MatMenuModule,
     MatButtonModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    MatProgressSpinnerModule
   ],
   providers: [PicommService,
     {provide: HTTP_INTERCEPTORS,
