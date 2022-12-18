@@ -13,6 +13,9 @@ import {MatButtonModule} from "@angular/material/button";
 import { DevicestatComponent } from './devicestat/devicestat.component';
 import {HeaderInterceptor, NullInterceptor, PicommService} from "./picomm.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { GoogleChartsModule } from 'angular-google-charts';
+
+
 
 @NgModule({
   declarations: [
@@ -29,12 +32,13 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatMenuModule,
     MatButtonModule,
     HttpClientJsonpModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    GoogleChartsModule,
   ],
   providers: [PicommService,
     {provide: HTTP_INTERCEPTORS,
-    useClass: NullInterceptor,
-    multi: true}
+      useClass: NullInterceptor,
+      multi: true}
   ],
   bootstrap: [AppComponent]
 })
