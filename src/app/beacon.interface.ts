@@ -11,3 +11,4 @@ export class BeaconData implements beacondatatype { constructor(
   public humData = 0,
   public timeStamp = 0 ) {}
 }
+

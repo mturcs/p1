@@ -14,6 +14,8 @@ import { DevicestatComponent } from './devicestat/devicestat.component';
 import {HeaderInterceptor, NullInterceptor, PicommService} from "./picomm.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { GoogleChartsModule } from 'angular-google-charts';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 
 
@@ -34,6 +36,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     HttpClientJsonpModule,
     MatProgressSpinnerModule,
     GoogleChartsModule,
+    MatCardModule,
+    MatButtonToggleModule,
   ],
   providers: [PicommService,
     {provide: HTTP_INTERCEPTORS,
