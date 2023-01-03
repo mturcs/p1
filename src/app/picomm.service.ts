@@ -14,6 +14,7 @@ const beaconUrlData = '192.168.0.101:3000/random'
 const beaconUrlThermo = '192.168.0.101:3000/thermo'
 const headers= new HttpHeaders().set('content-type', 'application/json')
 let mObservable = new Observable()
+let connectStatus:boolean=false
 
 
 
@@ -59,31 +60,30 @@ export class HeaderInterceptor implements HttpInterceptor {
 export class PicommService {
   private subscriber: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
 
   get alivetest() {
     return this.http.get('https://192.168.0.101:49160/alive')
   }
+
   get random() {
     return new Observable((subscriber) => {
-      subscriber.next( this.http.get('https://192.168.0.101:49160/random'))
+      subscriber.next(this.http.get('https://192.168.0.101:49160/random'))
     })
 
   }
+
   get thermo() {
     return this.http.get<beacondatatype>('https://192.168.0.101:49160/thermo')
   }
 
-  get thermo2() {
-    return 2
+  get isConnected() {
+    return new Observable(res =>{ res.next(connectStatus)})
   }
 
-
-
-
-
-
-
-
+  set setstatus(mstat:boolean) {
+    connectStatus=mstat
+  }
 }
