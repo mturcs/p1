@@ -16,6 +16,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { GoogleChartsModule } from 'angular-google-charts';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 
@@ -38,6 +39,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     GoogleChartsModule,
     MatCardModule,
     MatButtonToggleModule,
+    MatGridListModule,
   ],
   providers: [PicommService,
     {provide: HTTP_INTERCEPTORS,
