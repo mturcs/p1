@@ -17,13 +17,17 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { RecorderComponent } from './recorder/recorder.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DevicestatComponent
+    DevicestatComponent,
+    RecorderComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatCardModule,
     MatButtonToggleModule,
     MatGridListModule,
+    DragDropModule,
+    MatTooltipModule,
   ],
   providers: [PicommService,
     {provide: HTTP_INTERCEPTORS,

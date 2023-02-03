@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PicommService} from "../picomm.service";
 import {LoaderService} from "../loader.service";
 import {BeaconData, beacondatatype} from "../beacon.interface";
-import {map, take} from "rxjs"
 
 
 @Component({
@@ -25,7 +24,7 @@ export class DevicestatComponent implements OnInit {
   ];
   columnNames = ['Name', 'Percentage'];
   options = {
-    width: 500, height: 300,
+    width: 450, height: 250,
     redFrom: 90, redTo: 100,
     yellowFrom:75, yellowTo: 90,
     greenFrom:18, greenTo:28,

@@ -3,56 +3,71 @@
     style="position: fixed; top:50%; left: 50%" diameter="50"></mat-spinner>
 </div>
 
-<mat-grid-list cols="32" rowHeight="80px">
+<mat-grid-list cols="32" rowHeight="80px" cdkDrag>
   <mat-grid-tile style="margin-left: 15px; border: 5px solid darkgray; border-radius: 12px" [colspan]="2" [rowspan]="3"
                  [style.background]="'#32387a'">
-    <div
-      style="position:absolute; top:5px ; left:5px; font: message-box; font-size: 20px; color: aliceblue; text-align: center">
-      {{this.SampleData.deviceID}}
-    </div>
+  <mat-grid-tile-header>
+      <div style="position:absolute; top:5px ; left:5px; font: message-box; font-size: 20px; color: darkgray; text-align: center">
+        {{this.SampleData.deviceID}}
+      </div>
+  </mat-grid-tile-header>
 
-    <div>
+
       <div>
-        <div *ngIf="this.mpicom.isConnected | async; then thenBlock else elseBlock"></div>
+        <div>
+          <div *ngIf="this.mpicom.isConnected | async; then thenBlock else elseBlock"></div>
+
+        </div>
+        <ng-template #thenBlock><img
+          style="width: 90px; height: 90px; display: block; margin-left: auto; margin-right: auto; width: 50%;"
+          src="../../assets/iot-connect-svgrepo-com-conn.svg">
+        </ng-template>
+        <ng-template #elseBlock><img
+          style="width: 90px; height: 90px; display: block; margin-left: auto; margin-right: auto; width: 50%;"
+          src="../../assets/iot-connect-svgrepo-com-disconn.svg">
+        </ng-template>
+
+
+        <br>
+
+
+
+
 
       </div>
-      <ng-template #thenBlock><img
-        style="width: 60px; height: 60px; display: block; margin-left: auto; margin-right: auto; width: 50%;"
-        src="../../assets/iot-connect-svgrepo-com-conn.svg">
-      </ng-template>
-      <ng-template #elseBlock><img
-        style="width: 60px; height: 60px; display: block; margin-left: auto; margin-right: auto; width: 50%;"
-        src="../../assets/iot-connect-svgrepo-com-disconn.svg">
-      </ng-template>
-
-
-      <br>
-
-
+    <mat-grid-tile-footer>
       <div *ngIf="this.mpicom.isConnected | async; then thenBlockButton else elseBlockButton"></div>
 
       <ng-template #thenBlockButton>
-        <button mat-raised-button color="primary" (click)="disconnectPressed()">disconnect</button>
+        <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="connect"
+                [matTooltipPosition]="'above'"
+                (click)="disconnectPressed()">
+          <mat-icon>toggle_on</mat-icon>
+        </button>
       </ng-template>
 
       <ng-template #elseBlockButton>
-        <button mat-raised-button color="primary" (click)="connectPressed()">connect</button>
+        <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="connect"
+                [matTooltipPosition]="'above'"
+                (click)="connectPressed()">
+          <mat-icon>toggle_off</mat-icon>
+        </button>
       </ng-template>
+    </mat-grid-tile-footer>
+    </mat-grid-tile>
 
 
-    </div>
-  </mat-grid-tile>
 </mat-grid-list>
 
 <br>
 <br>
 
-<mat-grid-list cols="8" rowHeight="250px">
+<mat-grid-list cols="8" rowHeight="250px" cdkDrag>
   <mat-grid-tile style="padding: 20px; margin-left: 15px; border: 5px solid darkgray; border-radius: 12px" [colspan]="3"
                  [rowspan]="3"
                  [style.background]="'#32387a'">
     <mat-grid-tile-header>
-      <div style="position:absolute; top:5px ; left:5px; font: message-box ; font-size: 25px; color: aliceblue">
+      <div style="position:absolute; top:5px ; left:5px; font: message-box ; color: darkgray">
         {{this.SampleData.deviceID}}<br>
 
         Sampling time: {{this.SampleData.timeStamp | date :'mediumTime' }}
@@ -62,9 +77,13 @@
 
 
 
-    <mat-grid-tile style="margin-top: 10px; border: 5px solid lightgray; border-radius: 12px; " [colspan]="4"
+    <mat-grid-tile style="margin-top: 10px; border: 5px solid lightgray; border-radius: 12px; " [colspan]="5"
                    [rowspan]="2"
-                   [style.background]="'#32387a'">
+                   [style.background]="'#32387a'" cdkDrag>
+      <mat-grid-tile-header style="color: darkgray">
+        {{this.SampleData.deviceID}} Gauge
+
+      </mat-grid-tile-header>
       <google-chart #chart
                     [title]=title
                     [type]=type
@@ -75,11 +94,25 @@
 
       </google-chart>
       <mat-grid-tile-footer>
-        hello
+        <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="refresh"
+                [matTooltipPosition]="'above'" (click)="connectPressed()">
+          <mat-icon>refresh</mat-icon>
+        </button>
       </mat-grid-tile-footer>
     </mat-grid-tile>
     <mat-grid-tile-footer>
-      hello
+      <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="start record"
+              [matTooltipPosition]="'above'">
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" matTooltip="home"
+              [matTooltipPosition]="'above'">
+        <mat-icon>home</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" matTooltip="home"
+              [matTooltipPosition]="'above'">
+        <mat-icon>home</mat-icon>
+      </button>
     </mat-grid-tile-footer>
   </mat-grid-tile>
 
