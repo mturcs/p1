@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {HttpEvent, HttpInterceptor, HttpRequest,HttpHandler,HttpClientJsonpModule} from '@angular/common/http';
 import {delay, finalize, Observable, Subscriber} from "rxjs";
 import {LoaderService} from "./loader.service"
-import {beacondatatype} from "./beacon.interface";
+import {beacondatatype, recordstatustype} from "./beacon.interface";
 
 
 //const beaconUrlAlive = '192.168.0.101:49160/alive'
@@ -86,4 +86,24 @@ export class PicommService {
   set setstatus(mstat:boolean) {
     connectStatus=mstat
   }
+
+  set updateDbSampling(data:Object) {
+    console.log("hello data",data)
+    this.http.post('http://localhost:3000/app/beacon/startrecord',data)
+  }
 }
+
+@Injectable({providedIn: 'root'})
+export class setSamplingStatus {
+private subscriber: any;
+
+  constructor(private http: HttpClient) {
+  }
+  addRecordStatus(data:Object): Observable<recordstatustype> {
+    return this.http.post<any>('http://localhost:3000/app/beacon/startrecord',data)
+
+  }
+
+}
+
+

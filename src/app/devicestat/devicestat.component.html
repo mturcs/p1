@@ -102,7 +102,7 @@
     </mat-grid-tile>
     <mat-grid-tile-footer>
       <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="start record"
-              [matTooltipPosition]="'above'">
+              [matTooltipPosition]="'above'" (click)="startRecordPressed()">
         <mat-icon>cloud_upload</mat-icon>
       </button>
       <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" matTooltip="home"

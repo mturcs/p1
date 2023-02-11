@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {PicommService} from "../picomm.service";
+import {PicommService, setSamplingStatus} from "../picomm.service";
 import {LoaderService} from "../loader.service";
-import {BeaconData, beacondatatype} from "../beacon.interface";
-
+import {BeaconData, RecordStatusData} from "../beacon.interface";
+import {HttpClient} from "@angular/common/http";
+import {catchError} from "rxjs";
 
 @Component({
   selector: 'app-devicestat',
@@ -10,13 +11,15 @@ import {BeaconData, beacondatatype} from "../beacon.interface";
   styleUrls: ['./devicestat.component.css']
 })
 export class DevicestatComponent implements OnInit {
+  public date = new Date()
   public SampleData = new BeaconData()
+  public SetSampleData = new RecordStatusData()
   public thermArray = [this.SampleData.thermData]
   public thermSampler = this.mpicom.thermo
   private unsubscribe_thermo: any;
   public ChartType: any = 'Gauge';
   public connected: boolean = false;
-  public mStatus: object = {status:""}
+  public mStatus: object = {status: ""}
   public type = this.ChartType
   public data = [
     ['Temperature', 0],
@@ -26,8 +29,8 @@ export class DevicestatComponent implements OnInit {
   options = {
     width: 450, height: 250,
     redFrom: 90, redTo: 100,
-    yellowFrom:75, yellowTo: 90,
-    greenFrom:18, greenTo:28,
+    yellowFrom: 75, yellowTo: 90,
+    greenFrom: 18, greenTo: 28,
     minorTicks: 10
   };
   width = 500;
@@ -35,31 +38,31 @@ export class DevicestatComponent implements OnInit {
   title = 'googlechart';
 
 
-  constructor(public mpicom: PicommService, public spinner: LoaderService) {
+  constructor(public mpicom: PicommService, public spinner: LoaderService, private http: HttpClient, private setsampler: setSamplingStatus) {
   }
 
   ngOnInit() {
 
     this.unsubscribe_thermo = this.mpicom.thermo
-/*
-    for (let n in [1, 2, 3, 4, 5]) {
-      this.unsubscribe_thermo = this.mpicom.thermo
-      this.mpicom.thermo.subscribe(data => {
-        this.SampleData = data
-        this.thermArray.push(this.SampleData.thermData)
-        this.data = [
-          ['Temperature ˚C', parseInt(String(this.SampleData.thermData))],
-          ['Humidity %', parseInt(String(this.SampleData.humData))]
-        ];
-        console.log("thermo", this.SampleData)
-      })
+    /*
+        for (let n in [1, 2, 3, 4, 5]) {
+          this.unsubscribe_thermo = this.mpicom.thermo
+          this.mpicom.thermo.subscribe(data => {
+            this.SampleData = data
+            this.thermArray.push(this.SampleData.thermData)
+            this.data = [
+              ['Temperature ˚C', parseInt(String(this.SampleData.thermData))],
+              ['Humidity %', parseInt(String(this.SampleData.humData))]
+            ];
+            console.log("thermo", this.SampleData)
+          })
 
-    }
+        }
 
-*/
+    */
     console.log("array", this.thermArray)
     console.log("int?", this.SampleData.thermData)
-    console.log("connectionstatus 1",this.mpicom.isConnected)
+    console.log("connectionstatus 1", this.mpicom.isConnected)
   }
 
   ngOnDestroy() {
@@ -86,15 +89,20 @@ export class DevicestatComponent implements OnInit {
       ];
       console.log("thermo", this.SampleData)
     })
+  }
 
-
-
-
+  startRecordPressed() {
+    console.log("hello")
+    this.SetSampleData.deviceID=this.SampleData.deviceID
+    this.SetSampleData.recordingActive = true
+    this.SetSampleData.frequency=100
+    this.SetSampleData.timeStamp=Date.now()
+    this.setsampler.addRecordStatus(this.SetSampleData).subscribe()
 
   }
 
   disconnectPressed() {
-    this.mpicom.setstatus=false
+    this.mpicom.setstatus = false
     this.data = [
       ['Temperature ˚C', 0],
       ['Humidity %', 0]
