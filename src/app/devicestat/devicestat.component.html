@@ -70,7 +70,8 @@
       <div style="position:absolute; top:5px ; left:5px; font: message-box ; color: darkgray">
         {{this.SampleData.deviceID}}<br>
 
-        Sampling time: {{this.SampleData.timeStamp | date :'mediumTime' }}
+        Last Sampling at: {{this.SampleData.timeStamp | date :'mediumTime' }}
+        Sampling Record Started:{{this.SetSampleData.timeStamp | date :'mediumTime'}}
 
       </div>
     </mat-grid-tile-header>

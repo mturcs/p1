@@ -17,6 +17,7 @@ export class DevicestatComponent implements OnInit {
   public thermArray = [this.SampleData.thermData]
   public thermSampler = this.mpicom.thermo
   private unsubscribe_thermo: any;
+  private unsubscribe_recordStatus: any;
   public ChartType: any = 'Gauge';
   public connected: boolean = false;
   public mStatus: object = {status: ""}
@@ -44,6 +45,8 @@ export class DevicestatComponent implements OnInit {
   ngOnInit() {
 
     this.unsubscribe_thermo = this.mpicom.thermo
+    this.unsubscribe_recordStatus = this.mpicom.recordStatus
+
     /*
         for (let n in [1, 2, 3, 4, 5]) {
           this.unsubscribe_thermo = this.mpicom.thermo
@@ -67,6 +70,7 @@ export class DevicestatComponent implements OnInit {
 
   ngOnDestroy() {
     this.unsubscribe_thermo.unsubscribe
+    this.unsubscribe_recordStatus.unsubscribe
   }
 
   connectPressed() {
@@ -98,6 +102,9 @@ export class DevicestatComponent implements OnInit {
     this.SetSampleData.frequency=100
     this.SetSampleData.timeStamp=Date.now()
     this.setsampler.addRecordStatus(this.SetSampleData).subscribe()
+    this.mpicom.recordStatus.subscribe( SetSampleData => {
+      console.log("set data",this.SetSampleData)
+    })
 
   }
 

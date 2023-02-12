@@ -75,6 +75,12 @@ export class PicommService {
 
   }
 
+  get recordStatus() {
+    return new Observable(subscriber => {
+      subscriber.next(this.http.get('http://localhost:3000/app/beacon/recordstatus'))
+    })
+  }
+
   get thermo() {
     return this.http.get<beacondatatype>('https://192.168.0.101:49160/thermo')
   }
