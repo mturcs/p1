@@ -69,9 +69,14 @@
     <mat-grid-tile-header>
       <div style="position:absolute; top:5px ; left:5px; font: message-box ; color: darkgray">
         {{this.SampleData.deviceID}}<br>
-
-        Last Sampling at: {{this.SampleData.timeStamp | date :'mediumTime' }}
-        Sampling Record Started:{{this.SetSampleData.timeStamp | date :'mediumTime'}}
+          Last Sampling at: {{this.SampleData.timeStamp | date :'mediumTime' }}
+        <div *ngIf="this.SetSampleData.recordingActive then thenBlockRecActive else elseBlockRecActive"></div>
+        <ng-template #thenBlockRecActive >
+          Sampling Record Started at:{{this.SetSampleData.timeStamp | date :'mediumTime'}}
+        </ng-template>
+        <ng-template #elseBlockRecActive >
+          Sampling Record Stopped at:{{this.SetSampleData.timeStamp | date :'mediumTime'}}
+        </ng-template>
 
       </div>
     </mat-grid-tile-header>
@@ -102,10 +107,21 @@
       </mat-grid-tile-footer>
     </mat-grid-tile>
     <mat-grid-tile-footer>
-      <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="start record"
-              [matTooltipPosition]="'above'" (click)="startRecordPressed()">
-        <mat-icon>cloud_upload</mat-icon>
-      </button>
+      <div *ngIf="this.SetSampleData.recordingActive then thenBlockRecActive2 else elseBlockRecActive2"></div>
+      <ng-template #thenBlockRecActive2>
+        <button mat-icon-button color="primary" hello aria-label="Example icon button with a home icon" matTooltip="pause record"
+                [matTooltipPosition]="'above'" (click)="stopRecordPressed()">
+          <mat-icon>pause</mat-icon>
+        </button>
+      </ng-template>
+      <ng-template #elseBlockRecActive2>
+        <button mat-icon-button color="warn" hello aria-label="Example icon button with a home icon" matTooltip="start record"
+                [matTooltipPosition]="'above'" (click)="startRecordPressed()">
+          <mat-icon>fiber_manual_record</mat-icon>
+        </button>
+      </ng-template>
+
+
       <button mat-icon-button color="primary" aria-label="Example icon button with a home icon" matTooltip="home"
               [matTooltipPosition]="'above'">
         <mat-icon>home</mat-icon>

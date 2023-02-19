@@ -39,13 +39,15 @@ export class DevicestatComponent implements OnInit {
   title = 'googlechart';
 
 
-  constructor(public mpicom: PicommService, public spinner: LoaderService, private http: HttpClient, private setsampler: setSamplingStatus) {
+  constructor(public mpicom: PicommService, public spinner: LoaderService,
+              private http: HttpClient, private setsampler: setSamplingStatus) {
   }
 
   ngOnInit() {
 
     this.unsubscribe_thermo = this.mpicom.thermo
     this.unsubscribe_recordStatus = this.mpicom.recordStatus
+
 
     /*
         for (let n in [1, 2, 3, 4, 5]) {
@@ -93,6 +95,7 @@ export class DevicestatComponent implements OnInit {
       ];
       console.log("thermo", this.SampleData)
     })
+    /* this.startRecordPressed() */
   }
 
   startRecordPressed() {
@@ -105,8 +108,22 @@ export class DevicestatComponent implements OnInit {
     this.mpicom.recordStatus.subscribe( SetSampleData => {
       console.log("set data",this.SetSampleData)
     })
-
   }
+
+  stopRecordPressed() {
+    console.log("hello")
+    this.SetSampleData.deviceID=this.SampleData.deviceID
+    this.SetSampleData.recordingActive = false
+    this.SetSampleData.frequency=100
+    this.SetSampleData.timeStamp=Date.now()
+    this.setsampler.addRecordStatus(this.SetSampleData).subscribe()
+    this.mpicom.recordStatus.subscribe( SetSampleData => {
+      console.log("set data",this.SetSampleData)
+    })
+  }
+
+
+
 
   disconnectPressed() {
     this.mpicom.setstatus = false
